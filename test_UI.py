@@ -1,35 +1,23 @@
 import UI
 import UI_gb
-import UI_resources
+from UI_resources import Style
 # here the ui is actually used
 
-base_style = UI_resources.Style((255, 100, 0), text_color=(255, 255, 255))
+base_style = Style((255, 100, 0), text_color=(255, 255, 255))
 
 
 root = UI.Node()
 UI.root = root
 
-mystack1 = UI.Stack(UI_gb.HORIZONTAL)
-mystack2 = UI.Stack(UI_gb.VERTICAL)
-mystack3 = UI.Stack(UI_gb.HORIZONTAL)
+panel0 = UI.Panel(Style((255, 0, 0)), max_size=(None, None), min_size=(100, 100))
+panel1 = UI.Panel(Style((0, 255, 0)))
+panel2 = UI.Panel(Style((0, 0, 255)))
 
-mypanel1 = UI.Panel(base_style, "abc")
-mypanel2 = UI.Panel(UI_resources.Style((0, 100, 255)), "def")
-mypanel3 = UI.Panel(UI_resources.Style((0, 255, 0)), "ghi")
+stack0 = UI.Stack(UI_gb.VERTICAL)
 
-mypanel4 = UI.Panel(UI_resources.Style((100, 100, 255)), "123")
-mypanel5 = UI.Panel(UI_resources.Style((200, 0, 255)), "456")
-mypanel6 = UI.Panel(UI_resources.Style((150, 255, 30)), "789")
+stack0.add_child(panel0)
+stack0.add_child(panel1)
+stack0.add_child(panel2)
 
-mystack2.add_child(mypanel1)
-mystack2.add_child(mypanel2)
-mystack2.add_child(mypanel3)
 
-mystack3.add_child(mypanel4)
-mystack3.add_child(mypanel5)
-mystack3.add_child(mypanel6)
-
-mystack1.add_child(mystack2)
-mystack1.add_child(mystack3)
-
-root.add_child(mystack1)
+root.add_child(stack0)
