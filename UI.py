@@ -87,6 +87,10 @@ class Stack(Node):
                     child.size[0] = unconstrained_size
 
                 child.pos[0] = offset
+
+                child.pos[0] += self.pos[0]
+                child.pos[1] += self.pos[1]
+
                 offset += child.size[0]
             
 
@@ -125,6 +129,10 @@ class Stack(Node):
                     child.size[1] = unconstrained_size
 
                 child.pos[1] = offset
+
+                child.pos[0] += self.pos[0]
+                child.pos[1] += self.pos[1]
+
                 offset += child.size[1]
 
     def update(self):
