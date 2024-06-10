@@ -29,10 +29,10 @@ vstack.add_child(vpanel0)
 vstack.add_child(vpanel1)
 vstack.add_child(vpanel2)
 
+
+
 main_stack.add_child(vstack)
 main_stack.add_child(hstack)
-
-
 
 
 

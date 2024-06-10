@@ -54,22 +54,13 @@ class Stack(Node):
 
         if self.direction == UI_gb.HORIZONTAL and len(self.children) != 0:
             child_size = [self.size[0]/len(self.children), self.size[1]]
-
             available_width = self.size[0]
             unconstrained_count = 0
             for child in self.children:
                 constrained = False
                 # Determine the child's size based on constraints
-                if child.min_size[0] != None and child.max_size[0] != None:
-                    child.size[0] = clip(child_size[0], child.min_size[0], child.max_size[0])
-                    child.size[1] = child_size[1]
-                    constrained = True
-                elif child.max_size[0] !=  None:
-                    child.size[0] = min(child_size[0], child.max_size[0])
-                    child.size[1] = child_size[1]
-                    constrained = True
-                elif child.min_size[0] !=  None:
-                    child.size[0] = max(child_size[0], child.min_size[0])
+                if child.min_size[0] != None or child.max_size[0] != None:
+                    child.size[0] = constrain(child_size[0], lower=child.min_size[0], upper= child.max_size[0])
                     child.size[1] = child_size[1]
                     constrained = True
                 else:
@@ -79,6 +70,7 @@ class Stack(Node):
                 if constrained:
                     available_width -= child.size[0]
 
+            if unconstrained_count == 0: raise Exception("Stack must have at least 1 unconstrained child")
             unconstrained_size = available_width/unconstrained_count
 
             offset = 0
@@ -102,16 +94,8 @@ class Stack(Node):
             for child in self.children:
                 constrained = False
                 # Determine the child's size based on constraints
-                if child.min_size[1] != None and child.max_size[1] != None:
-                    child.size[1] = clip(child_size[1], child.min_size[1], child.max_size[1])
-                    child.size[0] = child_size[0]
-                    constrained = True
-                elif child.max_size[1] !=  None:
-                    child.size[1] = min(child_size[1], child.max_size[1])
-                    child.size[0] = child_size[0]
-                    constrained = True
-                elif child.min_size[1] !=  None:
-                    child.size[1] = max(child_size[1], child.min_size[1])
+                if child.min_size[1] != None or child.max_size[1] != None:
+                    child.size[1] = constrain(child_size[1], lower=child.min_size[1], upper=child.max_size[1])
                     child.size[0] = child_size[0]
                     constrained = True
                 else:
@@ -121,6 +105,7 @@ class Stack(Node):
                 if constrained:
                     available_height -= child.size[1]
 
+            if unconstrained_count == 0: raise Exception("Stack must have at least 1 unconstrained child") 
             unconstrained_size = available_height/unconstrained_count
 
             offset = 0
@@ -177,4 +162,13 @@ class Panel(Node):
 def clip(value, lower, upper):
     if value < lower: return lower
     if value > upper: return upper
+    return value
+
+def constrain(value, lower=None, upper=None):
+    if lower != None: 
+        if value < lower: return lower
+
+    if upper != None:
+        if value > upper: return upper
+
     return value
